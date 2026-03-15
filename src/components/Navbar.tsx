@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Search, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, Menu, X, Sun, Moon } from "lucide-react";
 
 const navLinks = [
   { label: "Notes", href: "#notes" },
@@ -10,6 +10,18 @@ const navLinks = [
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("light") ? "light" : "dark";
+    }
+    return "dark";
+  });
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    document.documentElement.classList.toggle("light", next === "light");
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -20,6 +32,13 @@ const Navbar = () => {
           <span className="text-sm font-medium tracking-tight text-foreground">
             Your Name
           </span>
+          <button
+            onClick={toggleTheme}
+            className="nav-link ml-1"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
         </div>
 
         {/* Right — desktop */}
