@@ -27,6 +27,10 @@ const HeroSection = () => {
             </a>
           ))}
         </div>
+
+        <p className="animate-fade-up animate-fade-up-delay-3 mt-10 hidden text-sm italic text-muted-foreground light-only">
+          "Sometimes you must bring things into the light to understand how they break in the dark."
+        </p>
       </div>
     </section>
   );
