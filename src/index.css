@@ -178,3 +178,35 @@
   display: block;
 }
 .animate-fade-up-delay-4 { animation-delay: 0.4s; }
+
+/* Hero name glow */
+.hero-glow-orb {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsla(220, 60%, 50%, 0.08) 0%, transparent 70%);
+  filter: blur(40px);
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.light .hero-glow-orb {
+  background: radial-gradient(circle, hsla(40, 70%, 65%, 0.12) 0%, transparent 70%);
+  filter: blur(50px);
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Quote glow in light mode */
+.quote-glow {
+  background: radial-gradient(ellipse, hsla(40, 60%, 70%, 0.15) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: quote-breathe 5s ease-in-out infinite;
+}
+
+@keyframes quote-breathe {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
