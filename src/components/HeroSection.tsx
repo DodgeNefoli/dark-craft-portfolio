@@ -8,7 +8,10 @@ const latestNotes = [
 const HeroSection = () => {
   return (
     <section className="hero-gradient relative flex min-h-screen items-center justify-center px-6">
-      <div className="text-center">
+      <div className="hero-name-glow absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+        <div className="hero-glow-orb" />
+      </div>
+      <div className="relative z-10 text-center">
         <h1 className="animate-fade-up text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
           Your Name
         </h1>
@@ -28,9 +31,14 @@ const HeroSection = () => {
           ))}
         </div>
 
-        <p className="animate-fade-up animate-fade-up-delay-3 mt-10 hidden text-sm italic text-muted-foreground light-only">
-          "Sometimes you must bring things into the light to understand how they break in the dark."
-        </p>
+        <div className="animate-fade-up animate-fade-up-delay-3 mt-10 light-only">
+          <div className="quote-glow-wrapper relative inline-block">
+            <div className="quote-glow absolute inset-0 -m-4 rounded-2xl" aria-hidden="true" />
+            <p className="relative text-base sm:text-lg italic text-muted-foreground font-light tracking-wide leading-relaxed">
+              "Sometimes you must bring things into the light to understand how they break in the dark."
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -4,10 +4,12 @@ import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
 import SocialSection from "@/components/SocialSection";
 import SystemInfoSection from "@/components/SystemInfoSection";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <AnimatedBackground />
       <Navbar />
       <HeroSection />
       <AboutSection />
