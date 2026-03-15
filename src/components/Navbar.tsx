@@ -32,6 +32,13 @@ const Navbar = () => {
           <span className="text-sm font-medium tracking-tight text-foreground">
             Your Name
           </span>
+          <button
+            onClick={toggleTheme}
+            className="nav-link ml-1"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
         </div>
 
         {/* Right — desktop */}

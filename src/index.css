@@ -169,3 +169,12 @@
 .animate-fade-up-delay-2 { animation-delay: 0.2s; }
 .animate-fade-up-delay-3 { animation-delay: 0.3s; }
 .animate-fade-up-delay-4 { animation-delay: 0.4s; }
+
+/* Show only in light mode */
+.light-only {
+  display: none;
+}
+.light .light-only {
+  display: block;
+}
+.animate-fade-up-delay-4 { animation-delay: 0.4s; }
