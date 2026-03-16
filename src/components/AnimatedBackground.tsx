@@ -153,12 +153,12 @@ const AnimatedBackground = () => {
               const midY = (nodes[i].y + nodes[j].y) / 2;
               const distToMouse = Math.hypot(midX - mx, midY - my);
               const mouseInfluence = Math.max(0, 1 - distToMouse / mouseRadius);
-              const baseOpacity = (1 - dist / connectionDistance) * 0.06;
+              const baseOpacity = (1 - dist / connectionDistance) * 0.1;
 
               ctx.beginPath();
               ctx.moveTo(nodes[i].x, nodes[i].y);
               ctx.lineTo(nodes[j].x, nodes[j].y);
-              ctx.strokeStyle = `hsla(220, 50%, 65%, ${baseOpacity + mouseInfluence * 0.15})`;
+              ctx.strokeStyle = `hsla(220, 50%, 65%, ${baseOpacity + mouseInfluence * 0.3})`;
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }
