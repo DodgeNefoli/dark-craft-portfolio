@@ -210,3 +210,64 @@
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
 }
+
+/* Prose styles for markdown content */
+.prose-custom {
+  @apply text-foreground leading-relaxed;
+}
+
+.prose-custom h1 {
+  @apply text-3xl font-bold tracking-tight text-foreground mt-8 mb-4;
+}
+
+.prose-custom h2 {
+  @apply text-xl font-semibold text-foreground mt-8 mb-3 border-b border-border pb-2;
+}
+
+.prose-custom h3 {
+  @apply text-lg font-semibold text-foreground mt-6 mb-2;
+}
+
+.prose-custom p {
+  @apply mb-4 text-muted-foreground;
+}
+
+.prose-custom ul, .prose-custom ol {
+  @apply mb-4 ml-6 text-muted-foreground;
+}
+
+.prose-custom ul {
+  @apply list-disc;
+}
+
+.prose-custom ol {
+  @apply list-decimal;
+}
+
+.prose-custom li {
+  @apply mb-1;
+}
+
+.prose-custom code {
+  @apply font-mono text-sm bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded;
+}
+
+.prose-custom pre {
+  @apply mb-4 rounded-lg border border-border bg-card p-4 overflow-x-auto;
+}
+
+.prose-custom pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose-custom a {
+  @apply text-foreground underline underline-offset-4 hover:text-accent-foreground;
+}
+
+.prose-custom blockquote {
+  @apply border-l-2 border-border pl-4 italic text-muted-foreground my-4;
+}
+
+.prose-custom strong {
+  @apply text-foreground font-semibold;
+}
