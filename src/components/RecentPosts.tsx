@@ -17,7 +17,6 @@ const RecentPosts = () => {
             className="group flex items-start gap-3 rounded-lg border border-border bg-card p-4 transition-all duration-200 hover:border-ring"
             style={{ boxShadow: "var(--shadow-card)" }}
           >
-            <span className="text-xl flex-shrink-0 mt-0.5">{post.icon}</span>
             <div className="min-w-0">
               <p className="font-medium text-sm text-foreground group-hover:text-accent-foreground truncate">
                 {post.title}
@@ -28,6 +27,20 @@ const RecentPosts = () => {
             </div>
           </Link>
         ))}
+      </div>
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <Link
+          to="/notes"
+          className="rounded-md border border-border bg-secondary px-5 py-2 font-mono text-xs text-secondary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
+        >
+          Read my notes
+        </Link>
+        <Link
+          to="/writeups"
+          className="rounded-md border border-border bg-secondary px-5 py-2 font-mono text-xs text-secondary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
+        >
+          Read my writeups
+        </Link>
       </div>
     </div>
   );
