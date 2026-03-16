@@ -100,7 +100,7 @@ const AnimatedBackground = () => {
 
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius + mouseInfluence * 2, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(220, 15%, 40%, ${0.06 + mouseInfluence * 0.15})`;
+          ctx.fillStyle = `hsla(220, 15%, 40%, ${0.1 + mouseInfluence * 0.35})`;
           ctx.fill();
 
           // Small crosshair on some dots
