@@ -1,17 +1,16 @@
-const latestNotes = [
-  { title: "XSS in Modern Frameworks", href: "#" },
-  { title: "DNS Rebinding Attack", href: "#" },
-  { title: "JWT Misconfiguration", href: "#" },
-  { title: "OAuth Token Leaks", href: "#" },
-];
+import { Link } from "react-router-dom";
+import { allPosts } from "@/lib/content";
+import RecentPosts from "./RecentPosts";
 
 const HeroSection = () => {
+  const latestNotes = allPosts.slice(0, 4);
+
   return (
     <section className="hero-gradient relative flex min-h-screen items-center justify-center px-6">
       <div className="hero-name-glow absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
         <div className="hero-glow-orb" />
       </div>
-      <div className="relative z-10 text-center">
+      <div className="relative z-10 text-center w-full flex flex-col items-center">
         <h1 className="animate-fade-up text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
           Your Name
         </h1>
@@ -20,14 +19,14 @@ const HeroSection = () => {
         </p>
 
         <div className="animate-fade-up animate-fade-up-delay-2 mt-12 flex flex-wrap items-center justify-center gap-3">
-          {latestNotes.map((note) => (
-            <a
-              key={note.title}
-              href={note.href}
+          {latestNotes.map((post) => (
+            <Link
+              key={post.slug}
+              to={`/${post.category === "note" ? "notes" : "writeups"}/${post.slug}`}
               className="rounded-md border border-border bg-secondary px-3 py-1.5 font-mono text-xs text-secondary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
             >
-              {note.title}
-            </a>
+              {post.title}
+            </Link>
           ))}
         </div>
 
@@ -39,6 +38,8 @@ const HeroSection = () => {
             </p>
           </div>
         </div>
+
+        <RecentPosts />
       </div>
     </section>
   );
