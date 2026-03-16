@@ -140,7 +140,7 @@ const AnimatedBackground = () => {
           // Node glow near mouse
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius + mouseInfluence * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(220, 60%, 70%, ${node.opacity * 0.07 + mouseInfluence * 0.2})`;
+          ctx.fillStyle = `hsla(220, 60%, 70%, ${node.opacity * 0.12 + mouseInfluence * 0.4})`;
           ctx.fill();
         });
 
