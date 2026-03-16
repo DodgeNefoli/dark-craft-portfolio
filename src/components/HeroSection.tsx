@@ -32,9 +32,9 @@ const HeroSection = () => {
         </div>
 
         <div className="animate-fade-up animate-fade-up-delay-3 mt-10 light-only">
-          <div className="quote-glow-wrapper relative inline-block">
-            <div className="quote-glow absolute inset-0 -m-4 rounded-2xl" aria-hidden="true" />
-            <p className="relative text-base sm:text-lg italic text-muted-foreground font-light tracking-wide leading-relaxed">
+          <div className="quote-container relative inline-block max-w-2xl rounded-2xl border border-border/50 bg-muted/40 px-8 py-6 backdrop-blur-sm">
+            <div className="quote-glow absolute inset-0 -m-2 rounded-2xl" aria-hidden="true" />
+            <p className="relative text-lg sm:text-xl italic text-muted-foreground font-light tracking-wide leading-relaxed">
               "Sometimes you must bring things into the light to understand how they break in the dark."
             </p>
           </div>

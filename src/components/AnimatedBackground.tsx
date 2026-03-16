@@ -100,13 +100,13 @@ const AnimatedBackground = () => {
 
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius + mouseInfluence * 2, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(220, 15%, 40%, ${0.06 + mouseInfluence * 0.15})`;
+          ctx.fillStyle = `hsla(220, 15%, 40%, ${0.1 + mouseInfluence * 0.35})`;
           ctx.fill();
 
           // Small crosshair on some dots
           if (node.radius > 1.2) {
             const size = 4 + mouseInfluence * 3;
-            ctx.strokeStyle = `hsla(220, 15%, 40%, ${0.04 + mouseInfluence * 0.1})`;
+            ctx.strokeStyle = `hsla(220, 15%, 40%, ${0.08 + mouseInfluence * 0.25})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(node.x - size, node.y);
@@ -120,7 +120,8 @@ const AnimatedBackground = () => {
         // Mouse glow for light mode
         if (mx > 0) {
           const gradient = ctx.createRadialGradient(mx, my, 0, mx, my, mouseRadius);
-          gradient.addColorStop(0, "hsla(40, 60%, 70%, 0.06)");
+          gradient.addColorStop(0, "hsla(40, 60%, 65%, 0.18)");
+          gradient.addColorStop(0.5, "hsla(40, 60%, 70%, 0.08)");
           gradient.addColorStop(1, "hsla(40, 60%, 70%, 0)");
           ctx.fillStyle = gradient;
           ctx.fillRect(mx - mouseRadius, my - mouseRadius, mouseRadius * 2, mouseRadius * 2);
@@ -139,7 +140,7 @@ const AnimatedBackground = () => {
           // Node glow near mouse
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius + mouseInfluence * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(220, 60%, 70%, ${node.opacity * 0.07 + mouseInfluence * 0.2})`;
+          ctx.fillStyle = `hsla(220, 60%, 70%, ${node.opacity * 0.12 + mouseInfluence * 0.4})`;
           ctx.fill();
         });
 
@@ -152,12 +153,12 @@ const AnimatedBackground = () => {
               const midY = (nodes[i].y + nodes[j].y) / 2;
               const distToMouse = Math.hypot(midX - mx, midY - my);
               const mouseInfluence = Math.max(0, 1 - distToMouse / mouseRadius);
-              const baseOpacity = (1 - dist / connectionDistance) * 0.06;
+              const baseOpacity = (1 - dist / connectionDistance) * 0.1;
 
               ctx.beginPath();
               ctx.moveTo(nodes[i].x, nodes[i].y);
               ctx.lineTo(nodes[j].x, nodes[j].y);
-              ctx.strokeStyle = `hsla(220, 50%, 65%, ${baseOpacity + mouseInfluence * 0.15})`;
+              ctx.strokeStyle = `hsla(220, 50%, 65%, ${baseOpacity + mouseInfluence * 0.3})`;
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }
@@ -167,7 +168,8 @@ const AnimatedBackground = () => {
         // Mouse glow for dark mode
         if (mx > 0) {
           const gradient = ctx.createRadialGradient(mx, my, 0, mx, my, mouseRadius);
-          gradient.addColorStop(0, "hsla(220, 60%, 60%, 0.05)");
+          gradient.addColorStop(0, "hsla(220, 60%, 60%, 0.15)");
+          gradient.addColorStop(0.5, "hsla(220, 60%, 60%, 0.06)");
           gradient.addColorStop(1, "hsla(220, 60%, 60%, 0)");
           ctx.fillStyle = gradient;
           ctx.fillRect(mx - mouseRadius, my - mouseRadius, mouseRadius * 2, mouseRadius * 2);
