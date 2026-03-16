@@ -106,7 +106,7 @@ const AnimatedBackground = () => {
           // Small crosshair on some dots
           if (node.radius > 1.2) {
             const size = 4 + mouseInfluence * 3;
-            ctx.strokeStyle = `hsla(220, 15%, 40%, ${0.04 + mouseInfluence * 0.1})`;
+            ctx.strokeStyle = `hsla(220, 15%, 40%, ${0.08 + mouseInfluence * 0.25})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(node.x - size, node.y);
