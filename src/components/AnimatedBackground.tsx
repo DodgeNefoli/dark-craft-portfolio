@@ -168,7 +168,8 @@ const AnimatedBackground = () => {
         // Mouse glow for dark mode
         if (mx > 0) {
           const gradient = ctx.createRadialGradient(mx, my, 0, mx, my, mouseRadius);
-          gradient.addColorStop(0, "hsla(220, 60%, 60%, 0.05)");
+          gradient.addColorStop(0, "hsla(220, 60%, 60%, 0.15)");
+          gradient.addColorStop(0.5, "hsla(220, 60%, 60%, 0.06)");
           gradient.addColorStop(1, "hsla(220, 60%, 60%, 0)");
           ctx.fillStyle = gradient;
           ctx.fillRect(mx - mouseRadius, my - mouseRadius, mouseRadius * 2, mouseRadius * 2);
