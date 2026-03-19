@@ -72,11 +72,11 @@ const AnimatedBackground = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
+      const mobile = isMobileRef.current;
 
       if (isLight) {
         // OSINT map style - dots and grid
-        // Faint grid
-        ctx.strokeStyle = "hsla(220, 10%, 50%, 0.04)";
+        ctx.strokeStyle = mobile ? "hsla(220, 10%, 50%, 0.08)" : "hsla(220, 10%, 50%, 0.04)";
         ctx.lineWidth = 0.5;
         const gridSize = 80;
         for (let x = 0; x < canvas.width; x += gridSize) {
@@ -92,7 +92,6 @@ const AnimatedBackground = () => {
           ctx.stroke();
         }
 
-        // Nodes as map dots
         nodes.forEach((node) => {
           node.x += node.vx * 0.3;
           node.y += node.vy * 0.3;
@@ -101,16 +100,16 @@ const AnimatedBackground = () => {
 
           const distToMouse = Math.hypot(node.x - mx, node.y - my);
           const mouseInfluence = Math.max(0, 1 - distToMouse / mouseRadius);
+          const mobileBoost = mobile ? 0.25 : 0;
 
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius + mouseInfluence * 2, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(220, 15%, 40%, ${0.1 + mouseInfluence * 0.35})`;
+          ctx.arc(node.x, node.y, node.radius + mouseInfluence * 2 + (mobile ? 1 : 0), 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(220, 15%, 40%, ${0.1 + mobileBoost + mouseInfluence * 0.35})`;
           ctx.fill();
 
-          // Small crosshair on some dots
           if (node.radius > 1.2) {
-            const size = 4 + mouseInfluence * 3;
-            ctx.strokeStyle = `hsla(220, 15%, 40%, ${0.08 + mouseInfluence * 0.25})`;
+            const size = 4 + mouseInfluence * 3 + (mobile ? 2 : 0);
+            ctx.strokeStyle = `hsla(220, 15%, 40%, ${0.08 + mobileBoost + mouseInfluence * 0.25})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(node.x - size, node.y);
@@ -121,7 +120,6 @@ const AnimatedBackground = () => {
           }
         });
 
-        // Mouse glow for light mode
         if (mx > 0) {
           const gradient = ctx.createRadialGradient(mx, my, 0, mx, my, mouseRadius);
           gradient.addColorStop(0, "hsla(40, 60%, 65%, 0.18)");
@@ -132,6 +130,8 @@ const AnimatedBackground = () => {
         }
       } else {
         // Dark mode - Network graph
+        const mobileBoost = mobile ? 0.3 : 0;
+
         nodes.forEach((node) => {
           node.x += node.vx;
           node.y += node.vy;
@@ -141,10 +141,9 @@ const AnimatedBackground = () => {
           const distToMouse = Math.hypot(node.x - mx, node.y - my);
           const mouseInfluence = Math.max(0, 1 - distToMouse / mouseRadius);
 
-          // Node glow near mouse
           ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius + mouseInfluence * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(220, 60%, 70%, ${node.opacity * 0.12 + mouseInfluence * 0.4})`;
+          ctx.arc(node.x, node.y, node.radius + mouseInfluence * 3 + (mobile ? 1.5 : 0), 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(220, 60%, 70%, ${node.opacity * 0.12 + mobileBoost + mouseInfluence * 0.4})`;
           ctx.fill();
         });
 
@@ -157,19 +156,18 @@ const AnimatedBackground = () => {
               const midY = (nodes[i].y + nodes[j].y) / 2;
               const distToMouse = Math.hypot(midX - mx, midY - my);
               const mouseInfluence = Math.max(0, 1 - distToMouse / mouseRadius);
-              const baseOpacity = (1 - dist / connectionDistance) * 0.1;
+              const baseOpacity = (1 - dist / connectionDistance) * (mobile ? 0.25 : 0.1);
 
               ctx.beginPath();
               ctx.moveTo(nodes[i].x, nodes[i].y);
               ctx.lineTo(nodes[j].x, nodes[j].y);
               ctx.strokeStyle = `hsla(220, 50%, 65%, ${baseOpacity + mouseInfluence * 0.3})`;
-              ctx.lineWidth = 0.5;
+              ctx.lineWidth = mobile ? 0.8 : 0.5;
               ctx.stroke();
             }
           }
         }
 
-        // Mouse glow for dark mode
         if (mx > 0) {
           const gradient = ctx.createRadialGradient(mx, my, 0, mx, my, mouseRadius);
           gradient.addColorStop(0, "hsla(220, 60%, 60%, 0.15)");
