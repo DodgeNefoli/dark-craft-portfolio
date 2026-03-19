@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { Search, X, FileText, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { allPosts, Post } from "@/lib/content";
 
 interface SearchResult {
@@ -10,8 +10,8 @@ interface SearchResult {
 }
 
 function searchContent(query: string): SearchResult[] {
-  if (!query || query.length < 2) return [];
-  const q = query.toLowerCase();
+  if (!query || query.trim().length === 0) return [];
+  const q = query.toLowerCase().trim();
 
   return allPosts
     .map((post) => {
@@ -20,6 +20,7 @@ function searchContent(query: string): SearchResult[] {
       if (post.title.toLowerCase().includes(q)) matches.push("title");
       if (post.description.toLowerCase().includes(q)) matches.push("description");
       if (post.content.toLowerCase().includes(q)) matches.push("content");
+      if (post.slug.toLowerCase().includes(q)) matches.push("slug");
 
       if (matches.length === 0) return null;
 
@@ -51,22 +52,36 @@ interface SearchOverlayProps {
 
 const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
   const [query, setQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const results = useMemo(() => searchContent(query), [query]);
+
+  // Reset active index when results change
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [results]);
 
   useEffect(() => {
     if (open) {
       setQuery("");
+      setActiveIndex(0);
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   }, [open]);
+
+  const navigateToResult = useCallback((result: SearchResult) => {
+    const folder = result.post.category === "note" ? "notes" : "writeups";
+    navigate(`/${folder}/${result.post.slug}`);
+    onClose();
+  }, [navigate, onClose]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         if (open) onClose();
-        else onClose(); // parent toggles
       }
       if (e.key === "Escape" && open) onClose();
     };
@@ -74,14 +89,36 @@ const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
     return () => window.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (results.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev + 1) % results.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev - 1 + results.length) % results.length);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (results[activeIndex]) {
+        navigateToResult(results[activeIndex]);
+      }
+    }
+  };
+
+  // Scroll active item into view
+  useEffect(() => {
+    if (!resultsRef.current) return;
+    const activeEl = resultsRef.current.querySelector(`[data-index="${activeIndex}"]`);
+    activeEl?.scrollIntoView({ block: "nearest" });
+  }, [activeIndex]);
+
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[100]" onClick={onClose}>
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
 
-      {/* Modal */}
       <div
         className="relative mx-auto mt-[15vh] w-full max-w-xl px-4"
         onClick={(e) => e.stopPropagation()}
@@ -95,6 +132,7 @@ const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Search notes, writeups, content…"
               className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
             />
@@ -107,10 +145,10 @@ const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
           </div>
 
           {/* Results */}
-          <div className="max-h-[50vh] overflow-y-auto">
-            {query.length < 2 ? (
+          <div ref={resultsRef} className="max-h-[50vh] overflow-y-auto">
+            {query.trim().length === 0 ? (
               <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-                Type at least 2 characters to search…
+                Start typing to search…
               </div>
             ) : results.length === 0 ? (
               <div className="px-4 py-8 text-center text-sm text-muted-foreground">
@@ -121,16 +159,19 @@ const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
                 <p className="px-4 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                   {results.length} result{results.length > 1 ? "s" : ""} found
                 </p>
-                {results.map((r) => {
-                  const folder = r.post.category === "note" ? "notes" : "writeups";
+                {results.map((r, index) => {
+                  const isActive = index === activeIndex;
                   return (
-                    <Link
+                    <div
                       key={r.post.slug}
-                      to={`/${folder}/${r.post.slug}`}
-                      onClick={onClose}
-                      className="group flex items-start gap-3 px-4 py-3 transition-colors hover:bg-muted/50"
+                      data-index={index}
+                      onClick={() => navigateToResult(r)}
+                      onMouseEnter={() => setActiveIndex(index)}
+                      className={`group flex cursor-pointer items-start gap-3 px-4 py-3 transition-colors ${
+                        isActive ? "bg-muted/70" : "hover:bg-muted/50"
+                      }`}
                     >
-                      <FileText size={16} className="mt-0.5 flex-shrink-0 text-muted-foreground group-hover:text-foreground" />
+                      <FileText size={16} className={`mt-0.5 flex-shrink-0 ${isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"}`} />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-medium text-foreground">{r.post.title}</span>
@@ -147,8 +188,8 @@ const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
                           </p>
                         )}
                       </div>
-                      <ArrowRight size={14} className="mt-1 flex-shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                    </Link>
+                      <ArrowRight size={14} className={`mt-1 flex-shrink-0 text-muted-foreground transition-opacity ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
+                    </div>
                   );
                 })}
               </div>
@@ -157,9 +198,17 @@ const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
 
           {/* Footer */}
           <div className="flex items-center justify-between border-t border-border px-4 py-2">
-            <p className="font-mono text-[10px] text-muted-foreground">
-              Searching across notes & writeups
-            </p>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">↑</kbd>
+                <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">↓</kbd>
+                <span className="font-mono text-[10px] text-muted-foreground">navigate</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">↵</kbd>
+                <span className="font-mono text-[10px] text-muted-foreground">open</span>
+              </div>
+            </div>
             <div className="hidden items-center gap-1 sm:flex">
               <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">⌘K</kbd>
               <span className="font-mono text-[10px] text-muted-foreground">to toggle</span>
