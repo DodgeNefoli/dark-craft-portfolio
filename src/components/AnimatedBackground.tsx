@@ -42,6 +42,7 @@ const AnimatedBackground = () => {
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      isMobileRef.current = window.innerWidth < MOBILE_BREAKPOINT;
     };
     resize();
     window.addEventListener("resize", resize);
