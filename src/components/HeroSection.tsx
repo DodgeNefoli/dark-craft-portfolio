@@ -15,7 +15,7 @@ const HeroSection = () => {
           Your Name
         </h1>
         <p className="animate-fade-up animate-fade-up-delay-1 mt-4 text-lg text-muted-foreground">
-          Security Researcher · Penetration Tester · CTF Player
+          Security Researcher · Penetration Tester · CTF Player · Developer
         </p>
 
         <div className="animate-fade-up animate-fade-up-delay-2 mt-12 flex flex-wrap items-center justify-center gap-3">
