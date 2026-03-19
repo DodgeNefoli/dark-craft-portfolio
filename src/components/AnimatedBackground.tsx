@@ -9,9 +9,12 @@ interface Node {
   opacity: number;
 }
 
+const MOBILE_BREAKPOINT = 768;
+
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
+  const isMobileRef = useRef(window.innerWidth < MOBILE_BREAKPOINT);
   const [isLight, setIsLight] = useState(
     document.documentElement.classList.contains("light")
   );
