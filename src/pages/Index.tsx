@@ -17,7 +17,7 @@ const Index = () => {
       <SocialSection />
       <SystemInfoSection />
       <footer className="border-t border-border py-8 text-center font-mono text-xs text-muted-foreground">
-        © {new Date().getFullYear()}
+        <p>Copyright © {new Date().getFullYear()} Dodge Nefoli. Some rights reserved.</p>
       </footer>
     </div>
   );

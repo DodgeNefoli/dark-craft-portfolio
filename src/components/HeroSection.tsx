@@ -12,7 +12,7 @@ const HeroSection = () => {
       </div>
       <div className="relative z-10 text-center w-full flex flex-col items-center">
         <h1 className="animate-fade-up text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
-          Your Name
+          Dodge Nefoli
         </h1>
         <p className="animate-fade-up animate-fade-up-delay-1 mt-4 text-lg text-muted-foreground">
           Security Researcher · Penetration Tester · CTF Player · Developer

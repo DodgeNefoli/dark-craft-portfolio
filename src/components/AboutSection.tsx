@@ -7,7 +7,7 @@ const AboutSection = () => {
         </p>
         <div className="max-w-2xl space-y-4 text-base leading-relaxed text-secondary-foreground">
           <p>
-            I'm a security researcher focused on web application security, penetration testing,
+            I'm Sushant Bhusal security researcher focused on web application security, penetration testing,
             and vulnerability research. I spend most of my time breaking things to understand
             how they work — and how they fail.
           </p>

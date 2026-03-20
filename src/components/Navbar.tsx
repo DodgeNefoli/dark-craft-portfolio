@@ -6,7 +6,7 @@ import SearchOverlay from "@/components/SearchOverlay";
 const navLinks = [
   { label: "Notes", href: "/notes" },
   { label: "Writeups", href: "/writeups" },
-  { label: "Certs", href: "/#certs" },
+  { label: "Certs", href: "https://www.linkedin.com/in/sushant-bhusal-07349b277/details/certifications/" },
 ];
 
 const Navbar = () => {
@@ -41,9 +41,9 @@ const Navbar = () => {
           {/* Left */}
           <div className="flex items-center gap-3">
             <button onClick={handleLogoClick} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="h-6 w-6 rounded-md bg-foreground" />
+              <img src="/logo.png" alt="logo" className="h-8 w-8 object-contain" />
               <span className="text-sm font-medium tracking-tight text-foreground">
-                Your Name
+                Dodge Nefoli
               </span>
             </button>
             <button
