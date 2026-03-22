@@ -31,7 +31,7 @@ const NotesPage = () => {
             </Link>
           ))}
           {notes.length === 0 && (
-            <p className="text-sm text-muted-foreground">No notes published yet.</p>
+            <p className="text-sm text-muted-foreground">Dropping Notes Soon!</p>
           )}
         </div>
       </main>

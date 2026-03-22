@@ -31,7 +31,7 @@ const WriteupsPage = () => {
             </Link>
           ))}
           {writeups.length === 0 && (
-            <p className="text-sm text-muted-foreground">No writeups published yet.</p>
+            <p className="text-sm text-muted-foreground">Dropping Writeups Soon!</p>
           )}
         </div>
       </main>

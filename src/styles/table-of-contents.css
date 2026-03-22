@@ -1,0 +1,119 @@
+/**
+ * table-of-contents.css - TOC styling
+ * 
+ * Lightweight, minimal styling for table of contents
+ * - Hierarchical indentation for h1/h2/h3
+ * - Active state highlighting
+ * - Subtle hover effects
+ */
+
+.toc-container {
+  font-size: 0.875rem;
+}
+
+.toc-title {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.toc-item {
+  margin: 0;
+  padding: 0;
+}
+
+/* Indentation based on heading level */
+.toc-level-1 {
+  margin-left: 0;
+}
+
+.toc-level-2 {
+  margin-left: 1rem;
+}
+
+.toc-level-3 {
+  margin-left: 2rem;
+}
+
+.toc-link {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  transition: all 0.2s ease;
+  word-break: break-word;
+}
+
+.toc-link:hover {
+  color: hsl(var(--foreground));
+  border-left-color: hsl(var(--border));
+  background-color: hsl(var(--muted) / 0.3);
+}
+
+/* Active state: current section being viewed */
+.toc-link.toc-active {
+  color: hsl(var(--foreground));
+  border-left-color: hsl(var(--foreground));
+  background-color: hsl(var(--muted) / 0.5);
+  font-weight: 500;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1024px) {
+  .toc-container {
+    font-size: 0.8125rem;
+  }
+
+  .toc-title {
+    font-size: 0.7rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-list {
+    gap: 0.2rem;
+  }
+
+  .toc-link {
+    padding: 0.35rem 0.6rem;
+  }
+
+  .toc-level-2 {
+    margin-left: 0.75rem;
+  }
+
+  .toc-level-3 {
+    margin-left: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .toc-container {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .toc-title {
+    font-size: 0.7rem;
+  }
+
+  .toc-link {
+    padding: 0.35rem 0.5rem;
+  }
+}

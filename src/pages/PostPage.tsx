@@ -3,6 +3,9 @@ import ReactMarkdown from "react-markdown";
 import { getPost } from "@/lib/content";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Navbar from "@/components/Navbar";
+import DocLayout from "@/components/DocLayout";
+import TableOfContents from "@/components/TableOfContents";
+import WriteupsSidebar from "@/components/WriteupsSidebar";
 
 const PostPage = () => {
   const { category, slug } = useParams<{ category: string; slug: string }>();
@@ -27,20 +30,21 @@ const PostPage = () => {
     <div className="min-h-screen bg-background">
       <AnimatedBackground />
       <Navbar />
-      <article className="section-container pt-32">
-        <Link
-          to="/"
-          className="mb-8 inline-block font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+      <div className="relative z-10 pt-32">
+        <DocLayout
+          title={`${post.icon} ${post.title}`}
+          description={post.description}
+          sidebar={<WriteupsSidebar />}
+          toc={<TableOfContents contentSelector=".doc-content" />}
         >
-          ← back
-        </Link>
+          <Link
+            to="/"
+            className="mb-8 inline-block font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            ← back
+          </Link>
 
-        <header className="mb-10">
-          <span className="text-3xl">{post.icon}</span>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            {post.title}
-          </h1>
-          <div className="mt-3 flex items-center gap-4 font-mono text-xs text-muted-foreground">
+          <div className="mb-8 flex items-center gap-4 font-mono text-xs text-muted-foreground">
             <span>{post.date}</span>
             <span>·</span>
             <span>{post.readTime}</span>
@@ -49,17 +53,14 @@ const PostPage = () => {
               {post.category}
             </span>
           </div>
-          {post.description && (
-            <p className="mt-4 text-base text-muted-foreground">{post.description}</p>
-          )}
-        </header>
 
-        <div className="prose-custom">
-          <ReactMarkdown>{post.content}</ReactMarkdown>
-        </div>
-      </article>
+          <div className="prose-custom">
+            <ReactMarkdown>{post.content}</ReactMarkdown>
+          </div>
+        </DocLayout>
+      </div>
     </div>
   );
-};
+}
 
 export default PostPage;
