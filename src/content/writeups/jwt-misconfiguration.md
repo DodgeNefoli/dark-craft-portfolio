@@ -41,3 +41,6 @@ The HS256 secret was `password123`. Cracked in seconds with `jwt-cracker`.
 - Enforce token expiration
 - Use strong, random secrets (256+ bits)
 - Consider using `PASETO` instead of JWT
+
+
+**Follow:** [@dodgenefoli](https://twitter.com/dodgenefoli) **On Twitter !**

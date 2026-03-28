@@ -1,13 +1,18 @@
+---
+title: Soulmate
+date: 2026-03-10
+readTime: 10 min
+category: writeup
+description: Hack The Box writeup for the Soulmate machine, covering CVE exploitation, web shell upload, and privilege escalation.
+icon: 🖤
+coverImage: ""
+---
+
 # Soulmate
 
-![image.png](writeup_image/htb/image.png)
+![Soulmate screenshot](/writeup_image/htb/image.png)
 
-<aside>
-⚠️
 
-This write-up is for **authorized** Hack The Box practice only. Do not use these steps against systems you do not own or have explicit permission to test.
-
-</aside>
 
 ### Overview
 
@@ -21,11 +26,11 @@ This box becomes straightforward once you:
 
 ### What I had at the start
 
-![image.png](Soulmate/image%201.png)
+![soulmate 1](/writeup_image/htb/image-1.png)
 
 At this point, this was as far as I could get.
 
-![image.png](Soulmate/image%202.png)
+![soulmate 2](/writeup_image/htb/image-2.png)
 
 This is what I had at the time.
 
@@ -39,7 +44,7 @@ Version:
 
 A quick search pointed me to a working CVE.
 
-![image.png](writeup_image/htb/image%203.png)
+![soulmate 3](/writeup_image/htb/image-3.png)
 
 ### Exploitation (CVE‑2025‑31161)
 
@@ -65,7 +70,7 @@ After logging in, upload a PHP reverse shell and trigger it:
 curl -v http://soulmate.htb/shell.php
 ```
 
-![image.png](Soulmate/image%204.png)
+![soulmate 4](/writeup_image/htb/image-4.png)
 
 If you run into connection issues, make sure your listening port is allowed (for example, 4444):
 
@@ -79,7 +84,7 @@ Next, download and run `linpeas.sh`.
 
 This is the way:
 
-![image.png](Soulmate/image%205.png)
+![soulmate 5](/writeup_image/htb/image-5.png)
 
 To keep it simple, copy the most relevant output into ChatGPT and ask for the **most suspicious directories**. It often suggests what to review first.
 
@@ -91,13 +96,13 @@ In my case, it suggested checking:
 
 After reviewing `/usr/local/lib/erlang_login/start.escript`, I found SSH credentials. Logging in allowed me to retrieve `user.txt`.
 
-![image.png](Soulmate/image%206.png)
+![soulmate 6](/writeup_image/htb/image-6.png)
 
 ### Root path: Erlang shell on port 2222
 
 While reviewing `/usr/local/lib/erlang_login/start.escript`, I also noticed an Erlang shell exposed on port **2222**.
 
-![image.png](Soulmate/image%207.png)
+![soulmate 7](/writeup_image/htb/image-7.png)
 
 Log in to SSH on port 2222:
 
@@ -136,3 +141,6 @@ If you take away one thing from this box, let it be this: **enumeration is a ski
 - “Internal” services (like an Erlang shell on a non-standard port) are still part of the attack surface.
 
 When you get stuck, do not rush. Slow down, enumerate one layer deeper, and follow the clues. That mindset turns random attempts into repeatable wins.
+
+
+**Follow:** [@dodgenefoli](https://twitter.com/dodgenefoli) **On Twitter !**
