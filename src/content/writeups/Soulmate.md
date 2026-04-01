@@ -3,9 +3,9 @@ title: Soulmate
 date: 2026-03-10
 readTime: 10 min
 category: writeup
-description: Hack The Box writeup for the Soulmate machine, covering CVE exploitation, web shell upload, and privilege escalation.
+description: Hack The Box writeup for the Soulmate retired easy machine, covering CVE exploitation, web shell upload, and privilege escalation.
 icon: 🖤
-coverImage: ""
+Level: "Easy"
 ---
 
 # Soulmate

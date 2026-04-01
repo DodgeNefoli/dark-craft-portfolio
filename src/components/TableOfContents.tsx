@@ -87,11 +87,20 @@ const TableOfContents = ({ contentSelector = ".doc-content" }: TableOfContentsPr
     };
 
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      let topmost: IntersectionObserverEntry | null = null;
+      
+      // Find the topmost intersecting heading (closest to viewport center)
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActiveId(entry.target.id);
+          if (!topmost || entry.boundingClientRect.top < topmost.boundingClientRect.top) {
+            topmost = entry;
+          }
         }
       });
+
+      if (topmost) {
+        setActiveId(topmost.target.id);
+      }
     };
 
     observerRef.current = new IntersectionObserver(handleIntersection, observerOptions);

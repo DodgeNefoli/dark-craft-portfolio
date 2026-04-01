@@ -34,6 +34,15 @@ const NotesPage = () => {
             <p className="text-sm text-muted-foreground">Dropping Notes Soon!</p>
           )}
         </div>
+
+        <div className="mt-10 text-center">
+          <Link
+            to="/"
+            className="text-sm font-mono text-muted-foreground transition hover:text-foreground hover:underline"
+          >
+            ← Back to home
+          </Link>
+        </div>
       </main>
     </div>
   );

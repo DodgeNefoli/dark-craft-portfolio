@@ -38,7 +38,7 @@ const PostPage = () => {
           toc={<TableOfContents contentSelector=".doc-content" />}
         >
           <Link
-            to="/"
+            to={`/${category}`}
             className="mb-8 inline-block font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
             ← back
