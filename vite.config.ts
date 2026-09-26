@@ -5,10 +5,11 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: "/dark-craft-portfolio/",
   server: {
     host: "::",
     port: 8080,
-    allowedHosts: ['seed-shorter-geological-union.trycloudflare.com'],
+    allowedHosts: ["seed-shorter-geological-union.trycloudflare.com"],
     hmr: {
       overlay: false,
     },
