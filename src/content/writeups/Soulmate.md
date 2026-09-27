@@ -5,6 +5,7 @@ readTime: 10 min
 category: writeup
 description: Hack The Box writeup for the Soulmate retired easy machine, covering CVE exploitation, web shell upload, and privilege escalation.
 icon: 🖤
+coverImage: /writeup_image/htb/soulmate.svg
 Level: "Easy"
 ---
 

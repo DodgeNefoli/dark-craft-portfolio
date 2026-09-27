@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { writeups } from "@/lib/content";
+import PostCover from "@/components/PostCover";
 import "../styles/writeups-sidebar.css";
 
 /**
@@ -73,7 +74,13 @@ const WriteupsSidebar = () => {
                       currentSlug === writeup.slug ? "writeups-link-active" : ""
                     }`}
                   >
-                    <span className="writeups-icon">{writeup.icon}</span>
+                    <PostCover
+                      imagePath={writeup.coverImage}
+                      fallback={writeup.icon}
+                      alt={`${writeup.title} cover`}
+                      className="writeups-icon"
+                      imageClassName="h-7 w-7 rounded-full border border-border object-cover"
+                    />
                     <span className="writeups-title">{writeup.title}</span>
                   </Link>
                 </li>

@@ -10,6 +10,15 @@ export interface Post {
   content: string;
 }
 
+/** Resolve paths under `public/` so they work on both root and project-page deployments. */
+export function resolveContentAssetUrl(url: string): string {
+  if (!url || /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(url)) return url;
+
+  const base = import.meta.env.BASE_URL;
+  if (url.startsWith(base)) return url;
+  return `${base}${url.replace(/^\/+/, "")}`;
+}
+
 function parseFrontmatter(raw: string): { meta: Record<string, string>; content: string } {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) return { meta: {}, content: raw };

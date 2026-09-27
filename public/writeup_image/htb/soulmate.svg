@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 304 304" role="img" aria-labelledby="title desc">
+  <title id="title">Soulmate</title>
+  <desc id="desc">Two people holding hands in a sunset, framed by a green circle.</desc>
+  <defs>
+    <linearGradient id="sunset" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb52e"/>
+      <stop offset=".55" stop-color="#ff7447"/>
+      <stop offset="1" stop-color="#432b35"/>
+    </linearGradient>
+    <clipPath id="scene"><circle cx="152" cy="152" r="123"/></clipPath>
+  </defs>
+  <circle cx="152" cy="152" r="149" fill="#151a17" stroke="#8bd448" stroke-width="8"/>
+  <circle cx="152" cy="152" r="129" fill="#202522" stroke="#344032" stroke-width="3"/>
+  <g clip-path="url(#scene)">
+    <path fill="url(#sunset)" d="M20 30h264v154H20z"/>
+    <circle cx="152" cy="124" r="57" fill="#ffe985" opacity=".94"/>
+    <path d="M20 169q35-20 66 0t66 0 66 0 66 0v115H20z" fill="#68423b"/>
+    <path d="M20 198q38-16 76 0t76 0 76 0 36 0v86H20z" fill="#23352d"/>
+    <path d="M49 284h205l-23-75H72z" fill="#18241e"/>
+    <path d="M97 145c-20 7-31 30-32 56l-8 52 49 8 13-65z" fill="#263238"/>
+    <path d="M81 116c0-20 12-33 31-33 19 0 29 13 29 33v17c0 20-11 34-29 34-18 0-31-15-31-34z" fill="#f0b27d"/>
+    <path d="M78 118c-8-25 7-47 31-48 15-1 29 7 35 22l-13 3-7-9-4 11-23 3-13 27z" fill="#17191a"/>
+    <path d="M88 163h45l14 58-11 63H78l-8-62z" fill="#30383a"/>
+    <path d="M80 276h33l-5 28H66z" fill="#54a9b0"/>
+    <path d="M137 165c12 9 19 24 21 42l6 39-15 8-15-42-13-26z" fill="#e9ac78"/>
+    <path d="M199 147c19 4 34 23 39 47l11 53-41 10-18-55z" fill="#d87927"/>
+    <path d="M197 111c2-21 15-34 33-32 18 2 27 17 24 37l-2 18c-3 20-16 32-33 30-19-2-28-17-25-37z" fill="#edaa7a"/>
+    <path d="M194 112c-1-27 17-43 41-38 22 4 32 23 24 47l-10 5-7-30-25-7-11 23z" fill="#51322b"/>
+    <path d="M185 158c16-5 37 0 50 12l6 57-12 58h-54l-7-56z" fill="#f09a29"/>
+    <path d="M178 235h57l-6 69h-62z" fill="#7c3431"/>
+    <path d="M139 177c5 22 14 35 25 47m17-49c-5 22-10 34-17 49" fill="none" stroke="#edaa7a" stroke-width="9" stroke-linecap="round"/>
+    <path d="M158 224h10" stroke="#f4c58f" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

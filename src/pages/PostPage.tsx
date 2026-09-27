@@ -1,9 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { getPost } from "@/lib/content";
+import { getPost, resolveContentAssetUrl } from "@/lib/content";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Navbar from "@/components/Navbar";
 import DocLayout from "@/components/DocLayout";
+import PostCover from "@/components/PostCover";
 import TableOfContents from "@/components/TableOfContents";
 import WriteupsSidebar from "@/components/WriteupsSidebar";
 
@@ -32,7 +33,18 @@ const PostPage = () => {
       <Navbar />
       <div className="relative z-10 pt-32">
         <DocLayout
-          title={`${post.icon} ${post.title}`}
+          title={
+            <span className="inline-flex items-center gap-3">
+              <PostCover
+                imagePath={post.coverImage}
+                fallback={post.icon}
+                alt={`${post.title} cover`}
+                className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-secondary text-2xl"
+                imageClassName="h-full w-full object-cover"
+              />
+              {post.title}
+            </span>
+          }
           description={post.description}
           sidebar={<WriteupsSidebar />}
           toc={<TableOfContents contentSelector=".doc-content" />}
@@ -55,7 +67,7 @@ const PostPage = () => {
           </div>
 
           <div className="prose-custom">
-            <ReactMarkdown>{post.content}</ReactMarkdown>
+            <ReactMarkdown urlTransform={resolveContentAssetUrl}>{post.content}</ReactMarkdown>
           </div>
         </DocLayout>
       </div>

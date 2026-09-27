@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import PostCover from "@/components/PostCover";
 import { writeups } from "@/lib/content";
 
 const WriteupsPage = () => {
@@ -18,7 +19,13 @@ const WriteupsPage = () => {
               to={`/writeups/${post.slug}`}
               className="group flex items-start gap-4 rounded-lg border border-border bg-card p-5 transition-all duration-200 hover:border-ring"
             >
-              <span className="text-2xl flex-shrink-0 mt-0.5">{post.icon}</span>
+              <PostCover
+                imagePath={post.coverImage}
+                fallback={post.icon}
+                alt={`${post.title} cover`}
+                className="mt-0.5 flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-secondary text-2xl"
+                imageClassName="h-full w-full object-cover"
+              />
               <div className="min-w-0">
                 <p className="font-medium text-foreground group-hover:text-accent-foreground">{post.title}</p>
                 {post.description && (

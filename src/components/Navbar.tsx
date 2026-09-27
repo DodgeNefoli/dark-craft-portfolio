@@ -41,7 +41,11 @@ const Navbar = () => {
           {/* Left */}
           <div className="flex items-center gap-3">
             <button onClick={handleLogoClick} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <img src="/logo.png" alt="logo" className="h-8 w-8 object-contain" />
+              <img
+                src={`${import.meta.env.BASE_URL}logo.png`}
+                alt="Dodge Nefoli logo"
+                className="h-8 w-8 object-contain"
+              />
               <span className="text-sm font-medium tracking-tight text-foreground">
                 Dodge Nefoli
               </span>

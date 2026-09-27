@@ -3,7 +3,7 @@ import "../styles/doc-layout.css";
 
 interface DocLayoutProps {
   children: ReactNode;
-  title: string;
+  title: ReactNode;
   description?: string;
   sidebar?: ReactNode;
   toc?: ReactNode;
