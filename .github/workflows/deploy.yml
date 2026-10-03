@@ -29,6 +29,8 @@ jobs:
         run: npm ci
 
       - name: Build site
+        env:
+          BASE_PATH: ${{ vars.BASE_PATH || '/' }}
         run: |
           npm run build
           cp dist/index.html dist/404.html
